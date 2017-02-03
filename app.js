@@ -17,7 +17,9 @@ var pixelShaderCode = [
 '',
 'varying float param;',
 'void main(void) {',
-'    gl_FragColor = vec4(1.0, 1.0, param, 1.0);',
+'    float r = 1.0;',
+'    ',
+'    gl_FragColor = vec4(r, param, param, 1.0);',
 '}'
 ].join("\n");
 
@@ -103,7 +105,7 @@ function createVertextShader(shaderCode) {
       return null;
    }
    return shader;
-};
+}
 
 function createPixelShader(shaderCode) {
    var shader = gl.createShader(gl.FRAGMENT_SHADER);
@@ -114,7 +116,7 @@ function createPixelShader(shaderCode) {
       return null;
    }
    return shader;
-};
+}
 
 function createProgram() {
    var   
