@@ -3,7 +3,11 @@ var vertextShaderCode = [
 'precision mediump float;',
 '',
 'attribute vec2 position;',	
+'attribute float vertParam;',
+'varying float param;',
+'',
 'void main(void) {',
+'    param = vertParam;',
 '    gl_Position = vec4(position, 0.0,  1.0);',
 '}'
 ].join("\n");
@@ -11,8 +15,9 @@ var vertextShaderCode = [
 var pixelShaderCode = [
 'precision mediump float;',
 '',
+'varying float param;',
 'void main(void) {',
-'    gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);',
+'    gl_FragColor = vec4(1.0, 1.0, param, 1.0);',
 '}'
 ].join("\n");
 
@@ -46,13 +51,15 @@ var initEngine = function() {
    }
 
    // Init geometry;
-
-
    var vertexes = new Float32Array([
    // x     y     x     p
-      0.0,  0.5,
-     -0.5, -0.5,
-      0.5, -0.5
+     -0.5,  0.5,  0.0,  1.0,
+     -0.5, -0.5,  0.0,  0.0,
+      0.5, -0.5,  0.0, -1.0,
+
+      0.5,  0.5,  0.0,  1.0,
+     -0.5,  0.5,  0.0,  0.0,
+      0.5, -0.5,  0.0, -1.0      
    ])
 
    // shader layout
@@ -60,19 +67,31 @@ var initEngine = function() {
    gl.bindBuffer(gl.ARRAY_BUFFER, vertexesBufferObject);
    gl.bufferData(gl.ARRAY_BUFFER, vertexes, gl.STATIC_DRAW);
 
-   var posAttrLocation = gl.getAttribLocation(program.prog, 'position');
+   var posAttrLocation = gl.getAttribLocation(program.prog, 'position');   
    gl.vertexAttribPointer(
       posAttrLocation, // положение атрибута.
-      2,
+      3,
       gl.FLOAT,
       gl.FALSE,
-      2 * Float32Array.BYTES_PER_ELEMENT,
+      4 * Float32Array.BYTES_PER_ELEMENT,
       0
    );
 
+   var paramAttrLocation = gl.getAttribLocation(program.prog, 'vertParam');
+   gl.vertexAttribPointer(
+      paramAttrLocation, // положение атрибута.
+      1,
+      gl.FLOAT,
+      gl.FALSE,
+      4 * Float32Array.BYTES_PER_ELEMENT,
+      3 * Float32Array.BYTES_PER_ELEMENT
+   );   
+
    gl.enableVertexAttribArray(posAttrLocation);
+   gl.enableVertexAttribArray(paramAttrLocation);
+   
    gl.useProgram(program.prog);
-   gl.drawArrays(gl.TRIANGLES, 0, 3);
+   gl.drawArrays(gl.TRIANGLES, 0, 6);   
 };
 
 function createVertextShader(shaderCode) {
