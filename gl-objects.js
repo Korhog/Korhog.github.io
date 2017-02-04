@@ -1,7 +1,7 @@
 function createDumpCube(width, height, depth) {    
     var cube = {};
 
-    cube.size = 30;
+    cube.size = 36;
     cube.vertices = new Float32Array(
         [
             // лицо
