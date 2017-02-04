@@ -3,8 +3,8 @@ var vertextShaderCode = [
 'precision mediump float;',
 '',
 'attribute vec3 position;',
-'attribute float vertParam;',
-'varying float param;',
+'attribute vec3 vertParam;',
+'varying vec3 param;',
 '',
 'uniform mat4 mWorld;',
 'uniform mat4 mView;',
@@ -19,11 +19,11 @@ var vertextShaderCode = [
 var pixelShaderCode = [
 'precision mediump float;',
 '',
-'varying float param;',
+'varying vec3 param;',
 'void main(void) {',
 '    float r = 1.0;',
 '    ',
-'    gl_FragColor = vec4(r, param, param, 1.0);',
+'    gl_FragColor = vec4(param, 1.0);',
 '}'
 ].join("\n");
 
@@ -34,8 +34,7 @@ var initEngine = function () {
         gl = document.getElementById("canvas").getContext("experimental-webgl");
     }
 
-    gl.clearColor(0.5, 0.75, 0.85, 1);
-    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+    gl.clearColor(0.5, 0.75, 0.85, 1);   
 
     var
         vs = createVertextShader(vertextShaderCode),
@@ -57,21 +56,14 @@ var initEngine = function () {
     }
 
     // Init geometry;
-    var vertexes = new Float32Array([
-    // x     y     x     p
-        -0.5, 0.5, 0.0, 1.0,
-        -0.5, -0.5, 0.0, 0.0,
-        0.5, -0.5, 0.0, -1.0,
+    var cube = createDumpCube(2, 0.4, 2); 
 
-        0.5, 0.5, 0.0, 1.0,
-        -0.5, 0.5, 0.0, 0.0,
-        0.5, -0.5, 0.0, -1.0
-    ]);
 
     // shader layout
     var vertexesBufferObject = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, vertexesBufferObject);
-    gl.bufferData(gl.ARRAY_BUFFER, vertexes, gl.STATIC_DRAW);
+    gl.bufferData(gl.ARRAY_BUFFER, cube.vertices, gl.STATIC_DRAW);
+    gl.enable(gl.DEPTH_TEST);
 
     var posAttrLocation = gl.getAttribLocation(program.prog, 'position');
     gl.vertexAttribPointer(
@@ -79,17 +71,17 @@ var initEngine = function () {
         3,
         gl.FLOAT,
         gl.FALSE,
-        4 * Float32Array.BYTES_PER_ELEMENT,
+        6 * Float32Array.BYTES_PER_ELEMENT,
         0
     );
 
     var paramAttrLocation = gl.getAttribLocation(program.prog, 'vertParam');
     gl.vertexAttribPointer(
         paramAttrLocation, // положение атрибута.
-        1,
+        3,
         gl.FLOAT,
         gl.FALSE,
-        4 * Float32Array.BYTES_PER_ELEMENT,
+        6 * Float32Array.BYTES_PER_ELEMENT,
         3 * Float32Array.BYTES_PER_ELEMENT
     );
 
@@ -107,7 +99,7 @@ var initEngine = function () {
         projMatrix = new Float32Array(16);
 
     mat4.identity(worldMatrix);
-    mat4.lookAt(viewMatrix, [1, 0, -5], [0, 0, 0], [0, 1, 0]);
+    mat4.lookAt(viewMatrix, [0, 3, -5], [0, 0, 0], [0, 1, 0]);
     mat4.perspective(
         projMatrix,
         glMatrix.toRadian(45),
@@ -120,7 +112,21 @@ var initEngine = function () {
     gl.uniformMatrix4fv(mViewLocation, gl.FALSE, viewMatrix);
     gl.uniformMatrix4fv(mProjLocation, gl.FALSE, projMatrix);
     
-    gl.drawArrays(gl.TRIANGLES, 0, 6);
+    var identityMatrix = new Float32Array(16);
+    mat4.identity(identityMatrix);
+    var angle = 0;
+    var loop = function() {
+        // Чистим экран
+        angle = performance.now() / 1000 / 6 * 2 * Math.PI;
+        mat4.rotate(worldMatrix, identityMatrix, angle, [0, 1, 0]);
+        gl.uniformMatrix4fv(mWorldLocation, gl.FALSE, worldMatrix);        
+
+        gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
+        gl.drawArrays(gl.TRIANGLES, 0, cube.size);
+        requestAnimationFrame(loop);
+    } 
+    requestAnimationFrame(loop);    
 };
 
 function createVertextShader(shaderCode) {
