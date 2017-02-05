@@ -103,7 +103,7 @@ var initEngine = function () {
     mat4.perspective(
         projMatrix,
         glMatrix.toRadian(45),
-        800 / 600,
+        1024 / 768,
         0.1,
         1000.0
     );
