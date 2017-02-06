@@ -31,6 +31,18 @@ var pixelShaderCode = [
 
 var initEngine = function () {
     var canvas = document.getElementById("canvas");
+
+
+    canvas.addEventListener('touchmove', function(event) {
+    // Если 1 палец внутри элемента
+    if (event.targetTouches.length == 1) {
+        var touch = event.targetTouches[0];
+        // Place element where the finger is
+        canvas.style.left = touch.pageX + 'px';
+        canvas.style.top = touch.pageY + 'px';
+    }
+    }, false);
+
     canvas.onmousedown = onMouseDown;
 
     //canvas.onmousedown = handleMouseDown;
