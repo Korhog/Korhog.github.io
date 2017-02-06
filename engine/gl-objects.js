@@ -66,34 +66,39 @@ function createDumpCube(width, height, depth) {
 function polygon(x1, y1, x2, y2) {
     var 
         p = {},
+        z = Math.random() / 20,
+        r = Math.random(),
+        g = Math.random(),
+        b = Math.random(),
         triangle = {};
+    
 
     p.triangles = [
         {
             vertices: [
                 {
                     x:x1, 
-                    y:0,
+                    y:z,
                     z:y1,
-                    r: Math.random(),
-                    g: Math.random(),
-                    b: Math.random()
+                    r: r,
+                    g: g,
+                    b: b
                 },
                 {
                     x:x1, 
-                    y:0,
+                    y:z,
                     z:y2,
-                    r: Math.random(),
-                    g: Math.random(),
-                    b: Math.random()
+                    r: r,
+                    g: g,
+                    b: b
                 },
                 {
                     x:x2, 
-                    y:0,
+                    y:z,
                     z:y1,
-                    r: Math.random(),
-                    g: Math.random(),
-                    b: Math.random()
+                    r: r,
+                    g: g,
+                    b: b
                 } 
             ]
         },
@@ -101,27 +106,27 @@ function polygon(x1, y1, x2, y2) {
             vertices: [
                 {
                     x:x2, 
-                    y:0,
+                    y:z,
                     z:y1,
-                    r: Math.random(),
-                    g: Math.random(),
-                    b: Math.random()
+                    r: r,
+                    g: g,
+                    b: b
                 },
                 {
                     x:x1, 
-                    y:0,
+                    y:z,
                     z:y2,
-                    r: Math.random(),
-                    g: Math.random(),
-                    b: Math.random()
+                    r: r,
+                    g: g,
+                    b: b
                 },
                 {
                     x:x2, 
-                    y:0,
+                    y:z,
                     z:y2,
-                    r: Math.random(),
-                    g: Math.random(),
-                    b: Math.random()
+                    r: r,
+                    g: g,
+                    b: b
                 } 
             ]
         }

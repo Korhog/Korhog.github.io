@@ -75,8 +75,13 @@ var initEngine = function () {
         return;
     }
 
-    // Init geometry;
-    var cube = generatePlane(120,120);
+    // Init geometry;    
+    var 
+        size = 512,
+        cs = 0;
+        cube = generatePlane(size,size);
+
+    cs = cube.size;
 
 
     // shader layout
@@ -139,7 +144,7 @@ var initEngine = function () {
         // Чистим экран
         gl.uniformMatrix4fv(mWorldLocation, gl.FALSE, worldMatrix);  
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-        gl.drawArrays(gl.TRIANGLES, 0, cube.size);
+        gl.drawArrays(gl.TRIANGLES, 0, cs);
         requestAnimationFrame(loop);
     };
     requestAnimationFrame(loop);    
