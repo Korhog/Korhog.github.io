@@ -2,10 +2,31 @@ var gl;
 // Мыша
 var mouseDown = false;
 var lastMouseX = null;
-var lastMouseY = 0;
+var lastMouseY = null;
 var worldMatrix;
-var angleX = 0;
-var angleY = 0;
+var viewMatrix;
+
+var camera = {
+    distance: 2,
+    rotate: 0,
+    tangage: -45,
+    view :function(matrix) {
+        var
+            rotMatrix = new Float32Array(16),
+            v = vec3.fromValues(0, 0, this.distance);
+            // Получаем матрицу поворота рысканья
+        mat4.identity(rotMatrix);
+        mat4.rotate(rotMatrix, rotMatrix, glMatrix.toRadian(this.tangage), [1, 0, 0]);
+        vec3.transformMat4(v, v, rotMatrix);
+        mat4.identity(rotMatrix);
+        mat4.rotate(rotMatrix, rotMatrix, glMatrix.toRadian(this.rotate), [0, 1, 0]);
+        vec3.transformMat4(v, v, rotMatrix);    
+
+        mat4.lookAt(matrix, [v[0], v[1], v[2]], [0, 0, 0], [0, 1, 0]);   
+
+        console.log(this.distance, this.rotate, this.tangage);
+    }
+};
 
 var vertextShaderCode = [
 'precision mediump float;',
@@ -39,11 +60,10 @@ var pixelShaderCode = [
 var initEngine = function () {
     var canvas = document.getElementById("canvas");
 
-
-
     canvas.onmousedown = onMouseDown;
     document.onmouseup = onMouseUp;
     document.onmousemove = onMouseMove;
+    canvas.onwheel = onWheel;
 
     //canvas.onmousedown = handleMouseDown;
     //document.onmouseup = handleMouseUp;
@@ -115,16 +135,16 @@ var initEngine = function () {
 
     gl.useProgram(program.prog);
     worldMatrix = new Float32Array(16);
+    viewMatrix = new Float32Array(16);
     var 
         mWorldLocation = gl.getUniformLocation(program.prog, 'mWorld'),
         mViewLocation = gl.getUniformLocation(program.prog, 'mView'),
-        mProjLocation = gl.getUniformLocation(program.prog, 'mProj'),
+        mProjLocation = gl.getUniformLocation(program.prog, 'mProj'),       
         
-        viewMatrix = new Float32Array(16),
         projMatrix = new Float32Array(16);
 
     mat4.identity(worldMatrix);
-    mat4.lookAt(viewMatrix, [0, 1, -1], [0, 0, 0], [0, 1, 0]);
+    camera.view(viewMatrix);
     mat4.perspective(
         projMatrix,
         glMatrix.toRadian(45),
@@ -142,7 +162,8 @@ var initEngine = function () {
     var angle = 0;
     var loop = function() {
         // Чистим экран
-        gl.uniformMatrix4fv(mWorldLocation, gl.FALSE, worldMatrix);  
+        //gl.uniformMatrix4fv(mWorldLocation, gl.FALSE, worldMatrix); 
+        gl.uniformMatrix4fv(mViewLocation, gl.FALSE, viewMatrix);
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
         gl.drawArrays(gl.TRIANGLES, 0, cs);
         requestAnimationFrame(loop);
@@ -203,14 +224,18 @@ function onMouseDown(event) {
     var newX = event.clientX;
     var newY = event.clientY;
     
-    var identityMatrix = new Float32Array(16);
-    mat4.identity(identityMatrix);
-
-    angleX += (lastMouseX ? newX - lastMouseX : 0) / 10;
-    angleY += (lastMouseY ? lastMouseY - newY : 0) / 10;
-    mat4.rotate(worldMatrix, identityMatrix,  glMatrix.toRadian(angleX), [0, 1, 0]);
-    mat4.rotate(worldMatrix, worldMatrix,  glMatrix.toRadian(angleY), [1, 0, 0]);
-
+    camera.rotate += (lastMouseX ? lastMouseX - newX : 0) / 10;
+    camera.tangage += (lastMouseY ? lastMouseY - newY : 0) / 10;
+    camera.view(viewMatrix);   
+   
+    //mat4.rotate(worldMatrix, wo;rldMatrix,  glMatrix.toRadian(angleY), [1, 0, 0]);
     lastMouseX = newX;
     lastMouseY = newY;
   }
+
+  function onWheel(event) {
+      camera.distance += event.deltaY / 1000;
+      camera.view(viewMatrix);
+  }
+
+  
