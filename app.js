@@ -1,4 +1,5 @@
 var gl;
+var mouseDown = false;
 var vertextShaderCode = [
 'precision mediump float;',
 '',
@@ -29,9 +30,16 @@ var pixelShaderCode = [
 
 
 var initEngine = function () {
+    var canvas = document.getElementById("canvas");
+    canvas.onmousedown = onMouseDown;
+
+    //canvas.onmousedown = handleMouseDown;
+    //document.onmouseup = handleMouseUp;
+    //document.onmousemove = handleMouseMove;
+
     gl = document.getElementById("canvas").getContext("webgl");
     if (!gl) {
-        gl = document.getElementById("canvas").getContext("experimental-webgl");
+        gl = canvas.getContext("experimental-webgl");
     }
 
     gl.clearColor(0.5, 0.75, 0.85, 1);   
@@ -117,15 +125,16 @@ var initEngine = function () {
     var angle = 0;
     var loop = function() {
         // Чистим экран
-        angle = performance.now() / 1000 / 6 * 2 * Math.PI;
-        mat4.rotate(worldMatrix, identityMatrix, angle, [0, 1, 0]);
-        gl.uniformMatrix4fv(mWorldLocation, gl.FALSE, worldMatrix);        
+        if (mouseDown) {
+            angle = performance.now() / 1000 / 6 * 2 * Math.PI;
+            mat4.rotate(worldMatrix, identityMatrix, angle, [0, 1, 0]);
+            gl.uniformMatrix4fv(mWorldLocation, gl.FALSE, worldMatrix);    
+        } 
 
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-
         gl.drawArrays(gl.TRIANGLES, 0, cube.size);
         requestAnimationFrame(loop);
-    } 
+    };
     requestAnimationFrame(loop);    
 };
 
@@ -163,4 +172,11 @@ function createProgram() {
         prog: program,
         attachShaders: f1.bind(program)
     };
+}
+
+function onMouseDown(event) {
+    mouseDown = true;}
+
+function onMouseMove(event) {
+    
 }

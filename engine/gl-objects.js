@@ -17,8 +17,7 @@ function createDumpCube(width, height, depth) {
             // pos (x,y,x), normal (xyz), param(f)
             -(width * 0.5), (height * 0.5), (depth * 0.5), 0.0, 1.0, 0.0,
             (width * 0.5), (height * 0.5), (depth * 0.5), 0.0, 1.0, 0.0,
-            -(width * 0.5), -(height * 0.5), (depth * 0.5), 0.0, 1.0, 0.0,
-            
+            -(width * 0.5), -(height * 0.5), (depth * 0.5), 0.0, 1.0, 0.0,            
             -(width * 0.5), -(height * 0.5), (depth * 0.5), 0.0, 1.0, 0.0,
             (width * 0.5), (height * 0.5), (depth * 0.5), 0.0, 1.0, 0.0,
             (width * 0.5), -(height * 0.5), (depth * 0.5), 0.0, 1.0, 0.0,
@@ -57,10 +56,7 @@ function createDumpCube(width, height, depth) {
             
             (width * 0.5), (height * 0.5), -(depth * 0.5), 0.0, 0.0, 1.0,
             (width * 0.5), -(height * 0.5), (depth * 0.5), 0.0, 0.0, 1.0,
-            (width * 0.5), -(height * 0.5), -(depth * 0.5), 0.0, 0.0, 1.0
-        
-            
-
+            (width * 0.5), -(height * 0.5), -(depth * 0.5), 0.0, 0.0, 1.0  
         ]
     );
 
