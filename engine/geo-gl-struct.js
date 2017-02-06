@@ -3,6 +3,5 @@ define(
    [],
    function() {
 
-
    }
 );

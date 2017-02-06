@@ -1,5 +1,12 @@
 var gl;
+// Мыша
 var mouseDown = false;
+var lastMouseX = null;
+var lastMouseY = 0;
+var worldMatrix;
+var angleX = 0;
+var angleY = 0;
+
 var vertextShaderCode = [
 'precision mediump float;',
 '',
@@ -33,17 +40,10 @@ var initEngine = function () {
     var canvas = document.getElementById("canvas");
 
 
-    canvas.addEventListener('touchmove', function(event) {
-    // Если 1 палец внутри элемента
-    if (event.targetTouches.length == 1) {
-        var touch = event.targetTouches[0];
-        // Place element where the finger is
-        canvas.style.left = touch.pageX + 'px';
-        canvas.style.top = touch.pageY + 'px';
-    }
-    }, false);
 
     canvas.onmousedown = onMouseDown;
+    document.onmouseup = onMouseUp;
+    document.onmousemove = onMouseMove;
 
     //canvas.onmousedown = handleMouseDown;
     //document.onmouseup = handleMouseUp;
@@ -76,7 +76,7 @@ var initEngine = function () {
     }
 
     // Init geometry;
-    var cube = createDumpCube(2, 0.4, 2); 
+    var cube = generatePlane(30,30);
 
 
     // shader layout
@@ -109,17 +109,17 @@ var initEngine = function () {
     gl.enableVertexAttribArray(paramAttrLocation);
 
     gl.useProgram(program.prog);
+    worldMatrix = new Float32Array(16);
     var 
         mWorldLocation = gl.getUniformLocation(program.prog, 'mWorld'),
         mViewLocation = gl.getUniformLocation(program.prog, 'mView'),
         mProjLocation = gl.getUniformLocation(program.prog, 'mProj'),
-
-        worldMatrix = new Float32Array(16),
+        
         viewMatrix = new Float32Array(16),
         projMatrix = new Float32Array(16);
 
     mat4.identity(worldMatrix);
-    mat4.lookAt(viewMatrix, [0, 3, -5], [0, 0, 0], [0, 1, 0]);
+    mat4.lookAt(viewMatrix, [0, 1.5, -3], [0, 0, 0], [0, 1, 0]);
     mat4.perspective(
         projMatrix,
         glMatrix.toRadian(45),
@@ -137,12 +137,7 @@ var initEngine = function () {
     var angle = 0;
     var loop = function() {
         // Чистим экран
-        if (mouseDown) {
-            angle = performance.now() / 1000 / 6 * 2 * Math.PI;
-            mat4.rotate(worldMatrix, identityMatrix, angle, [0, 1, 0]);
-            gl.uniformMatrix4fv(mWorldLocation, gl.FALSE, worldMatrix);    
-        } 
-
+        gl.uniformMatrix4fv(mWorldLocation, gl.FALSE, worldMatrix);  
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
         gl.drawArrays(gl.TRIANGLES, 0, cube.size);
         requestAnimationFrame(loop);
@@ -187,8 +182,30 @@ function createProgram() {
 }
 
 function onMouseDown(event) {
-    mouseDown = true;}
-
-function onMouseMove(event) {
-    
+    lastMouseX = event.ClientX;
+    lastMouseY = event.ClientY;   
+    mouseDown = true;
 }
+
+  function onMouseUp(event) {
+    mouseDown = false;
+  }
+
+  function onMouseMove(event) {
+    if (!mouseDown) {
+      return;
+    }
+    var newX = event.clientX;
+    var newY = event.clientY;
+    
+    var identityMatrix = new Float32Array(16);
+    mat4.identity(identityMatrix);
+
+    angleX += (lastMouseX ? newX - lastMouseX : 0) / 10;
+    angleY += (lastMouseY ? lastMouseY - newY : 0) / 10;
+    mat4.rotate(worldMatrix, identityMatrix,  glMatrix.toRadian(angleX), [0, 1, 0]);
+    mat4.rotate(worldMatrix, worldMatrix,  glMatrix.toRadian(angleY), [1, 0, 0]);
+
+    lastMouseX = newX;
+    lastMouseY = newY;
+  }
