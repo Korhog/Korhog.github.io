@@ -1,4 +1,12 @@
 var gl;
+// Мыша
+var mouseDown = false;
+var lastMouseX = null;
+var lastMouseY = 0;
+var worldMatrix;
+var angleX = 0;
+var angleY = 0;
+
 var vertextShaderCode = [
 'precision mediump float;',
 '',
@@ -29,9 +37,21 @@ var pixelShaderCode = [
 
 
 var initEngine = function () {
+    var canvas = document.getElementById("canvas");
+
+
+
+    canvas.onmousedown = onMouseDown;
+    document.onmouseup = onMouseUp;
+    document.onmousemove = onMouseMove;
+
+    //canvas.onmousedown = handleMouseDown;
+    //document.onmouseup = handleMouseUp;
+    //document.onmousemove = handleMouseMove;
+
     gl = document.getElementById("canvas").getContext("webgl");
     if (!gl) {
-        gl = document.getElementById("canvas").getContext("experimental-webgl");
+        gl = canvas.getContext("experimental-webgl");
     }
 
     gl.clearColor(0.5, 0.75, 0.85, 1);   
@@ -55,8 +75,13 @@ var initEngine = function () {
         return;
     }
 
-    // Init geometry;
-    var cube = createDumpCube(2, 0.4, 2); 
+    // Init geometry;    
+    var 
+        size = 512,
+        cs = 0;
+        cube = generatePlane(size,size);
+
+    cs = cube.size;
 
 
     // shader layout
@@ -89,17 +114,17 @@ var initEngine = function () {
     gl.enableVertexAttribArray(paramAttrLocation);
 
     gl.useProgram(program.prog);
+    worldMatrix = new Float32Array(16);
     var 
         mWorldLocation = gl.getUniformLocation(program.prog, 'mWorld'),
         mViewLocation = gl.getUniformLocation(program.prog, 'mView'),
         mProjLocation = gl.getUniformLocation(program.prog, 'mProj'),
-
-        worldMatrix = new Float32Array(16),
+        
         viewMatrix = new Float32Array(16),
         projMatrix = new Float32Array(16);
 
     mat4.identity(worldMatrix);
-    mat4.lookAt(viewMatrix, [0, 3, -5], [0, 0, 0], [0, 1, 0]);
+    mat4.lookAt(viewMatrix, [0, 1, -1], [0, 0, 0], [0, 1, 0]);
     mat4.perspective(
         projMatrix,
         glMatrix.toRadian(45),
@@ -117,15 +142,11 @@ var initEngine = function () {
     var angle = 0;
     var loop = function() {
         // Чистим экран
-        angle = performance.now() / 1000 / 6 * 2 * Math.PI;
-        mat4.rotate(worldMatrix, identityMatrix, angle, [0, 1, 0]);
-        gl.uniformMatrix4fv(mWorldLocation, gl.FALSE, worldMatrix);        
-
+        gl.uniformMatrix4fv(mWorldLocation, gl.FALSE, worldMatrix);  
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-
-        gl.drawArrays(gl.TRIANGLES, 0, cube.size);
+        gl.drawArrays(gl.TRIANGLES, 0, cs);
         requestAnimationFrame(loop);
-    } 
+    };
     requestAnimationFrame(loop);    
 };
 
@@ -164,3 +185,32 @@ function createProgram() {
         attachShaders: f1.bind(program)
     };
 }
+
+function onMouseDown(event) {
+    lastMouseX = event.ClientX;
+    lastMouseY = event.ClientY;   
+    mouseDown = true;
+}
+
+  function onMouseUp(event) {
+    mouseDown = false;
+  }
+
+  function onMouseMove(event) {
+    if (!mouseDown) {
+      return;
+    }
+    var newX = event.clientX;
+    var newY = event.clientY;
+    
+    var identityMatrix = new Float32Array(16);
+    mat4.identity(identityMatrix);
+
+    angleX += (lastMouseX ? newX - lastMouseX : 0) / 10;
+    angleY += (lastMouseY ? lastMouseY - newY : 0) / 10;
+    mat4.rotate(worldMatrix, identityMatrix,  glMatrix.toRadian(angleX), [0, 1, 0]);
+    mat4.rotate(worldMatrix, worldMatrix,  glMatrix.toRadian(angleY), [1, 0, 0]);
+
+    lastMouseX = newX;
+    lastMouseY = newY;
+  }
