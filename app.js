@@ -76,7 +76,7 @@ var initEngine = function () {
     }
 
     // Init geometry;
-    var cube = generatePlane(30,30);
+    var cube = generatePlane(120,120);
 
 
     // shader layout
@@ -119,7 +119,7 @@ var initEngine = function () {
         projMatrix = new Float32Array(16);
 
     mat4.identity(worldMatrix);
-    mat4.lookAt(viewMatrix, [0, 1.5, -3], [0, 0, 0], [0, 1, 0]);
+    mat4.lookAt(viewMatrix, [0, 1, -1], [0, 0, 0], [0, 1, 0]);
     mat4.perspective(
         projMatrix,
         glMatrix.toRadian(45),
