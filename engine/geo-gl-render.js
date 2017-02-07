@@ -4,7 +4,7 @@ define(
     function(camera) {
         console.log('render-initialized');
         return {
-            camera: camera, // main scene camera
+            camera: camera, // main scene camera. Камера не модуль. Ее надо создавать. 
             scene: null, // current scene 
             program: null,
             mesh: null, // потом удалим.
@@ -74,7 +74,7 @@ define(
                 }   
 
                 // Init geometry;    
-                this.mesh = generatePlane(256,256);
+                this.mesh = generatePlane(640, 640);
 
                 // shader layout
                 var vertexesBufferObject = gl.createBuffer();
@@ -94,20 +94,19 @@ define(
 
                     mWorldLocation = gl.getUniformLocation(program.prog, 'mWorld'),
                     mViewLocation = gl.getUniformLocation(program.prog, 'mView'),
-                    mProjLocation = gl.getUniformLocation(program.prog, 'mProj'); 
-
-                    
+                    mProjLocation = gl.getUniformLocation(program.prog, 'mProj');                     
 
                 mat4.identity(worldMatrix);
                 this.camera.view(viewMatrix);
+
+                // Матрицу песпекивы перенести в камеру.
                 mat4.perspective(
                     projMatrix,
                     glMatrix.toRadian(45),
                     1024 / 768,
                     0.1,
                     1000.0
-                );                   
-
+                ); 
 
                 gl.uniformMatrix4fv(mWorldLocation, gl.FALSE, worldMatrix);                
                 gl.uniformMatrix4fv(mProjLocation, gl.FALSE, projMatrix);
@@ -115,7 +114,9 @@ define(
             draw: function() {
                 // Base frame render   
                 if (!this.mesh)
-                    return;   
+                    return;  
+
+                // Цикл отрис 
 
                 var 
                     gl = this.gl,
