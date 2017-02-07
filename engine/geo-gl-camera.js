@@ -3,14 +3,25 @@ define(
     [],
     function() {
         return {
-            parent: null, // engine
+            // модуль не есть камера, в дальнейшем он должен перехать в метод создания камеры. 
+            parent: null, // engine            
             setParent: function(obj) {
                 this.parent = obj;
             },            
             distance: 2,
             yaw: 0, // rotation by Y
             pitch: -45,
-            view: function(matrix) {
+            pitchRange: { mix:-89.9, max:89.9},
+            view: function(matrix) {                
+                // ОБраничивам ма
+                if (this.pitch > this.pitchRange.max) {
+                    this.pitch = this.pitchRange.max;  
+                }
+
+                if (this.pitch < this.pitchRange.min) {
+                    this.pitch = this.pitchRange.min;  
+                }                
+
                 var
                     rotMatrix = new Float32Array(16),
                     v = vec3.fromValues(0, 0, this.distance);
