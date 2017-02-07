@@ -74,7 +74,7 @@ define(
                 }   
 
                 // Init geometry;    
-                this.mesh = generatePlane(640, 640);
+                this.mesh = generatePlane(256, 256);
 
                 // shader layout
                 var vertexesBufferObject = gl.createBuffer();
