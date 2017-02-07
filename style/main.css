@@ -1,0 +1,14 @@
+.cls-wrapper {
+    max-width: 960px;
+    margin: auto;
+}
+
+.cls-side-menu {
+	float: left;
+	width: 250px;
+}
+
+.cls-content {
+	margin-left: 280px;
+	padding-bottom: 50px;
+}

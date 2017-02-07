@@ -1,3 +1,38 @@
+var 
+    app = {}; // Объект приложения.
+
+require.config({
+    baseUrl: 'engine',
+    paths: {
+        jquery: 'js/jquery',
+        message: 'js/message'
+    }
+});
+
+require(['jquery', 'geo-gl-engine'], function($, engine) {  
+    // Загружаем объект движка и передаем его в приложение. 
+    app.engine = engine;
+    initialize(); 
+});
+
+var initialize = function () {
+    var 
+        canvas = document.getElementById("canvas");  
+    
+    app.engine.initialize(document, canvas);
+
+    // Run render loop
+    var 
+        loop = function () {
+            app.engine.render.draw();
+            requestAnimationFrame(loop);
+        };
+    requestAnimationFrame(loop);
+};
+
+
+
+/*
 var gl;
 // Мыша
 var mouseDown = false;
@@ -5,57 +40,6 @@ var lastMouseX = null;
 var lastMouseY = null;
 var worldMatrix;
 var viewMatrix;
-
-var camera = {
-    distance: 2,
-    rotate: 0,
-    tangage: -45,
-    view :function(matrix) {
-        var
-            rotMatrix = new Float32Array(16),
-            v = vec3.fromValues(0, 0, this.distance);
-            // Получаем матрицу поворота рысканья
-        mat4.identity(rotMatrix);
-        mat4.rotate(rotMatrix, rotMatrix, glMatrix.toRadian(this.tangage), [1, 0, 0]);
-        vec3.transformMat4(v, v, rotMatrix);
-        mat4.identity(rotMatrix);
-        mat4.rotate(rotMatrix, rotMatrix, glMatrix.toRadian(this.rotate), [0, 1, 0]);
-        vec3.transformMat4(v, v, rotMatrix);    
-
-        mat4.lookAt(matrix, [v[0], v[1], v[2]], [0, 0, 0], [0, 1, 0]);   
-
-        console.log(this.distance, this.rotate, this.tangage);
-    }
-};
-
-var vertextShaderCode = [
-'precision mediump float;',
-'',
-'attribute vec3 position;',
-'attribute vec3 vertParam;',
-'varying vec3 param;',
-'',
-'uniform mat4 mWorld;',
-'uniform mat4 mView;',
-'uniform mat4 mProj;',
-'',
-'void main(void) {',
-'    param = vertParam;',
-'    gl_Position = mProj * mView * mWorld * vec4(position, 1.0);',
-'}'
-].join("\n");
-
-var pixelShaderCode = [
-'precision mediump float;',
-'',
-'varying vec3 param;',
-'void main(void) {',
-'    float r = 1.0;',
-'    ',
-'    gl_FragColor = vec4(param, 1.0);',
-'}'
-].join("\n");
-
 
 var initEngine = function () {
     var canvas = document.getElementById("canvas");
@@ -65,39 +49,9 @@ var initEngine = function () {
     document.onmousemove = onMouseMove;
     canvas.onwheel = onWheel;
 
-    //canvas.onmousedown = handleMouseDown;
-    //document.onmouseup = handleMouseUp;
-    //document.onmousemove = handleMouseMove;
-
-    gl = document.getElementById("canvas").getContext("webgl");
-    if (!gl) {
-        gl = canvas.getContext("experimental-webgl");
-    }
-
-    gl.clearColor(0.5, 0.75, 0.85, 1);   
-
-    var
-        vs = createVertextShader(vertextShaderCode),
-        ps = createPixelShader(pixelShaderCode),
-        program = createProgram();
-
-    program.attachShaders(vs, ps);
-
-    gl.linkProgram(program.prog);
-    if (!gl.getProgramParameter(program.prog, gl.LINK_STATUS)) {
-        console.error('Error: link program');
-        return;
-    }
-
-    gl.validateProgram(program.prog);
-    if (!gl.getProgramParameter(program.prog, gl.VALIDATE_STATUS)) {
-        console.error('Error: validate program');
-        return;
-    }
-
     // Init geometry;    
     var 
-        size = 512,
+        size = 64,
         cs = 0;
         cube = generatePlane(size,size);
 
@@ -109,29 +63,6 @@ var initEngine = function () {
     gl.bindBuffer(gl.ARRAY_BUFFER, vertexesBufferObject);
     gl.bufferData(gl.ARRAY_BUFFER, cube.vertices, gl.STATIC_DRAW);
     gl.enable(gl.DEPTH_TEST);
-
-    var posAttrLocation = gl.getAttribLocation(program.prog, 'position');
-    gl.vertexAttribPointer(
-        posAttrLocation, // положение атрибута.
-        3,
-        gl.FLOAT,
-        gl.FALSE,
-        6 * Float32Array.BYTES_PER_ELEMENT,
-        0
-    );
-
-    var paramAttrLocation = gl.getAttribLocation(program.prog, 'vertParam');
-    gl.vertexAttribPointer(
-        paramAttrLocation, // положение атрибута.
-        3,
-        gl.FLOAT,
-        gl.FALSE,
-        6 * Float32Array.BYTES_PER_ELEMENT,
-        3 * Float32Array.BYTES_PER_ELEMENT
-    );
-
-    gl.enableVertexAttribArray(posAttrLocation);
-    gl.enableVertexAttribArray(paramAttrLocation);
 
     gl.useProgram(program.prog);
     worldMatrix = new Float32Array(16);
@@ -171,41 +102,7 @@ var initEngine = function () {
     requestAnimationFrame(loop);    
 };
 
-function createVertextShader(shaderCode) {
-    var shader = gl.createShader(gl.VERTEX_SHADER);
-    gl.shaderSource(shader, shaderCode);
-    gl.compileShader(shader);
-    if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-        console.error('Error: compile vertext shader', gl.getShaderInfoLog(shader));
-        return null;
-    }
-    return shader;
-}
 
-function createPixelShader(shaderCode) {
-    var shader = gl.createShader(gl.FRAGMENT_SHADER);
-    gl.shaderSource(shader, shaderCode);
-    gl.compileShader(shader);
-    if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-        console.error('Error: compile pixel shader', gl.getShaderInfoLog(shader));
-        return null;
-    }
-    return shader;
-}
-
-function createProgram() {
-    var
-        program = gl.createProgram(),
-        f1 = function (vertexShader, pixelShader) {
-            gl.attachShader(this, vertexShader);
-            gl.attachShader(this, pixelShader);
-        };
-
-    return {
-        prog: program,
-        attachShaders: f1.bind(program)
-    };
-}
 
 function onMouseDown(event) {
     lastMouseX = event.ClientX;
@@ -237,5 +134,6 @@ function onMouseDown(event) {
       camera.distance += event.deltaY / 1000;
       camera.view(viewMatrix);
   }
+*/
 
   

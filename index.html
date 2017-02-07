@@ -2,25 +2,26 @@
 <html>
    <head>
       <title> Web.GEO.3D </title>
+      <link rel="stylesheet" href="./style/main.css" type="text/css">
+      <script type="text/javascript" src="./engine/gl-matrix.js"></script>
+      <script type="text/javascript" src="./engine/gl-objects.js"></script>
+      <script data-main="app" src="./client/require.js"></script>
    </head>
-   <body onload="initEngine();">
-      <div style="margin: 0 auto; text-align: center">        
-         <div>
-            <canvas id="canvas" width="1024" height="768">
-               HTML5 not supported... in 2017... 
-            </canvas>
-         </div>
-         <div style="text-align: left">              
+   <!--body onload="initEngine();"-->
+   <body>    
+      <div class="cls-wrapper">    
+         <div class="cls-side-menu">              
             06.02.2017<br/>
             - добавлен объект камера.<br/>         
             - добавлена работа с камерой (зум, вращение).<br/>
             - тест производительности сетка 512x512      
-         </div
+         </div>              
+         <div class="cls-content">
+            <canvas id="canvas" width="1024" height="768">
+               HTML5 not supported... in 2017... 
+            </canvas>
+         </div>
       </div>
       <br/>
-      
-      <script type="text/javascript" src="./engine/gl-matrix.js" ></script>
-      <script type="text/javascript" src="./engine/gl-objects.js" ></script>
-      <script type="text/javascript" src="app.js" ></script>      
    </body>
 </html>
