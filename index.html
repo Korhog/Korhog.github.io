@@ -3,13 +3,15 @@
    <head>
       <title> Web.GEO.3D </title>
       <link rel="stylesheet" href="./style/main.css" type="text/css">
+      <script type="text" src="./engine/input.txt"></script>
       <script type="text/javascript" src="./engine/gl-matrix.js"></script>
       <script type="text/javascript" src="./engine/gl-objects.js"></script>
       <script data-main="app" src="./client/require.js"></script>
    </head>
    <!--body onload="initEngine();"-->
    <body>    
-      <div class="cls-wrapper">    
+      <div class="cls-wrapper">
+         <input type="file" id="files" multiple>
          <div class="cls-side-menu">              
             06.02.2017<br/>
             - добавлен объект камера.<br/>         
