@@ -28,26 +28,13 @@ var initialize = function () {
             len = files.length;
 
         reader.onload = function(event) {
-            var 
-                contents = event.target.result,
-                lines = contents.split(/\r?\n/);
+
+            app.engine.render.mesh = loadMeshFromFile(event);
+            //app.engine.render.camera.target = {x:mesh.center.x, y:20, z:mesh.center.z}
+            //app.engine.render.mesh = generatePlane(128, 128);
+            app.engine.render.setupDemoRender();
             
-            lines.forEach(function(line, idx, lines) {
-                var 
-                    pack = line.split(/\s/),
-                    vertice = {};
-                if (pack.length > 2) {
-                    vertice.x = parseFloat(pack[0]);
-                    vertice.y = parseFloat(pack[1]);
-                    vertice.z = parseFloat(pack[2]);
-                }
-
-                if (pack.length == 4) {
-                    vertice.p = parseFloat(pack[3]);
-                }                
-
-                console.log(vertice);                
-            });
+            console.log('loading end'); 
         };
          
         reader.onerror = function(event) {
@@ -63,7 +50,7 @@ var initialize = function () {
         }
      
     }, false);        
-    /*
+    
     app.engine.initialize(document, canvas);
 
     // Run render loop
@@ -72,6 +59,5 @@ var initialize = function () {
             app.engine.render.draw();
             requestAnimationFrame(loop);
         };
-    requestAnimationFrame(loop);
-    */
+    requestAnimationFrame(loop);    
 };

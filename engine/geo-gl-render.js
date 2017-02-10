@@ -37,7 +37,7 @@ define(
                 };               
 
                 this.setClearColor([0.15, 0.21, 0.24]);
-                this.setupDemoRender();
+                //this.setupDemoRender();
                 console.log(this.gl);              
             },
             setClearColor: function(rgb) {
@@ -52,6 +52,9 @@ define(
             },
             setupDemoRender: function () {
                 // инициализация 
+                if(!this.mesh)
+                    return;
+
                 var 
                     gl = this.gl,
                     factory = this.parent.shaderFactory,
@@ -71,10 +74,7 @@ define(
                 if (!gl.getProgramParameter(program.prog, gl.VALIDATE_STATUS)) {
                     console.error('Error: validate program');
                     return;
-                }   
-
-                // Init geometry;    
-                this.mesh = generatePlane(256, 256);
+                } 
 
                 // shader layout
                 var vertexesBufferObject = gl.createBuffer();
@@ -85,8 +85,6 @@ define(
                 factory.setupVertextLayoutFromVS(shaders.vsBase, program.prog);
 
                 gl.useProgram(program.prog);
-
-
                 var 
                     worldMatrix = new Float32Array(16),
                     viewMatrix = new Float32Array(16),

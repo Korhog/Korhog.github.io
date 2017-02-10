@@ -181,3 +181,45 @@ function generatePlane(n, m) {
     plane.size = polyList.length * 2 * 3;
     return plane;
 }
+
+function loadMeshFromFile(data) {
+    var 
+        contents = data.target.result,
+        lines = contents.split(/\r?\n/),
+        cnt = 0,
+        mesh = {}, 
+        arr = [],          
+        vertices = [];
+
+    mesh.center = {x:0, y:0, z:0};        
+
+    lines.forEach(function(line, idx, lines) {
+        if (idx === 0) {
+            mesh.center.x = parseFloat( line.match(/[\d.-]+/g)[0]);
+            mesh.center.y = parseFloat( line.match(/[\d.-]+/g)[1]);
+            return;
+        }
+
+        var 
+            vertices = line.match(/\([^(]+?\)/g);
+        
+        for (var i in vertices) {
+            // Pos Vector3
+            arr[arr.length] = parseFloat( vertices[i].match(/[\d.-]+/g)[0] ) / 10000;
+            arr[arr.length] = parseFloat( vertices[i].match(/[\d.-]+/g)[2] ) / 1000 - 2;
+            arr[arr.length] = parseFloat( vertices[i].match(/[\d.-]+/g)[1] ) / 10000;
+            // RGB
+            arr[arr.length] = 0;
+            arr[arr.length] = parseFloat( vertices[i].match(/[\d.-]+/g)[3]);
+            arr[arr.length] = 0;  
+            cnt += 1;
+        }             
+    }); 
+
+    mesh.vertices = new Float32Array(arr);
+    mesh.size = cnt;
+    console.log('vertices: ' + cnt);
+    delete(data.target.result);
+
+    return mesh;  
+}
