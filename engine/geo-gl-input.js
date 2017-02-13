@@ -24,9 +24,9 @@ define(
                 canvas.onwheel = this.onWheel.bind(this);
             },
             onTouchStart: function (event) {
-                //event.ClientX = event.touches[0].ClientX;
-                //event.ClientY = event.touches[0].ClientY;
-                //this.onMouseDown(event).bind(this);
+                event.ClientX = event.touches[0].ClientX;
+                event.ClientY = event.touches[0].ClientY;
+                this.onMouseDown(event).bind(this);
                 alert('onTouchStart');
             },
 
@@ -35,9 +35,24 @@ define(
                 this.MouseY = event.ClientY;   
                 this.isMouseDown = true;
             },
+
             onMouseUp: function (event) {
                 this.isMouseDown = false;
             },
+
+
+            onTouchMove: function (event) {
+                if (!this.parent || !this.isMouseDown) {
+                    return;
+                }                 
+
+                event.ClientX = event.touches[0].ClientX;
+                event.ClientY = event.touches[0].ClientY;
+                this.onMouseMove(event).bind(this);
+                alert('onTouchStart');
+                return false;
+            },
+
             onMouseMove: function (event) {
                 if (!this.parent || !this.isMouseDown) {
                     return;
@@ -46,22 +61,22 @@ define(
                     camera = this.parent.render.camera,
                     newX = event.clientX,
                     newY = event.clientY;                    
-    
-                    camera.yaw += (this.MouseX ? this.MouseX - newX : 0) / 10;
-                    camera.pitch += (this.MouseY ? this.MouseY - newY : 0) / 10;
 
-                    this.MouseX = newX;
-                    this.MouseY = newY;
-                },
-                onWheel: function (event) {
-                    if (!this.parent) {
-                        return;
-                    }
-                    var 
-                        camera = this.parent.render.camera; 
+                camera.yaw += (this.MouseX ? this.MouseX - newX : 0) / 10;
+                camera.pitch += (this.MouseY ? this.MouseY - newY : 0) / 10;
 
-                    camera.distance += event.deltaY / 1000;
-                }            
+                this.MouseX = newX;
+                this.MouseY = newY;
+            },
+            onWheel: function (event) {
+                if (!this.parent) {
+                    return;
+                }
+                var 
+                    camera = this.parent.render.camera; 
+
+                camera.distance += event.deltaY / 1000;
+            }            
         };
     } 
 );
