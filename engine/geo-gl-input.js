@@ -19,7 +19,7 @@ define(
                 docinst.ontouchend = this.onMouseUp.bind(this);
                 // Движение
                 docinst.onmousemove = this.onMouseMove.bind(this);
-                docinst.ontouchmove = this.onMouseMove.bind(this);
+                docinst.ontouchmove = this.onTouchMove.bind(this);
                 // Нажатие
                 canvas.onwheel = this.onWheel.bind(this);
             },
@@ -27,15 +27,18 @@ define(
                 var 
                     touch = {};
 
-                touch.ClientX = event.touches[0].ClientX;
-                touch.ClientY = event.touches[0].ClientY;
-                //this.onMouseDown(event).bind(this);
-                alert('onTouchStart');
+                touch.clientX = event.touches[0].clientX;
+                touch.clientY = event.touches[0].clientY;
+
+                this.MouseX = event.clientX;
+                this.MouseY = event.clientY;   
+                this.isMouseDown = true;
+                //alert('onTouchStart');
             },
 
             onMouseDown: function (event) {
-                this.MouseX = event.ClientX;
-                this.MouseY = event.ClientY;   
+                this.MouseX = event.clientX;
+                this.MouseY = event.clientY;   
                 this.isMouseDown = true;
             },
 
@@ -49,10 +52,23 @@ define(
                     return;
                 }                 
 
-                event.ClientX = event.touches[0].ClientX;
-                event.ClientY = event.touches[0].ClientY;
-                this.onMouseMove(event).bind(this);
-                alert('onTouchStart');
+                event.clientX = event.touches[0].clientX;
+                event.clientY = event.touches[0].clientY;
+
+                if (!this.parent || !this.isMouseDown) {
+                    return;
+                }
+                var 
+                    camera = this.parent.render.camera,
+                    newX = event.clientX,
+                    newY = event.clientY;                    
+
+                camera.yaw += (this.MouseX ? this.MouseX - newX : 0) / 10;
+                camera.pitch += (this.MouseY ? this.MouseY - newY : 0) / 10;
+
+                this.MouseX = newX;
+                this.MouseY = newY;
+
                 return false;
             },
 
