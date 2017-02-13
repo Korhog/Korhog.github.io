@@ -24,9 +24,9 @@ define(
                 canvas.onwheel = this.onWheel.bind(this);
             },
             onTouchStart: function (event) {
-                event.ClientX = event.touches[0].ClientX;
-                event.ClientY = event.touches[0].ClientY;
-                this.onMouseDown(event).bind(this);
+                //event.ClientX = event.touches[0].ClientX;
+                //event.ClientY = event.touches[0].ClientY;
+                //this.onMouseDown(event).bind(this);
                 alert('onTouchStart');
             },
 
