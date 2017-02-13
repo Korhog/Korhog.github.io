@@ -22,18 +22,21 @@ var initialize = function () {
 
     control.addEventListener("change", function(event) {
         // Когда происходит изменение элементов управления, значит появились новые файлы
+        document.getElementById("status-panel").style.visibility = "unset";
+        
         var reader = new FileReader(),
             i = 0,
             files = control.files,
             len = files.length;
 
         reader.onload = function(event) {
-
+            
+            
             app.engine.render.mesh = loadMeshFromFile(event);
             //app.engine.render.camera.target = {x:mesh.center.x, y:20, z:mesh.center.z}
             //app.engine.render.mesh = generatePlane(128, 128);
             app.engine.render.setupDemoRender();
-            
+            document.getElementById("status-panel").style.visibility = "collapse";
             console.log('loading end'); 
         };
          

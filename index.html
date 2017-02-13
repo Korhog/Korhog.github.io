@@ -11,18 +11,31 @@
    </head>
    <!--body onload="initEngine();"-->
    <body>    
-      <div class="cls-wrapper">
-         <input type="file" id="files" multiple>
-         <div class="cls-side-menu">              
-            06.02.2017<br/>
-            - добавлен объект камера.<br/>         
-            - добавлена работа с камерой (зум, вращение).<br/>
-            - тест производительности сетка 512x512      
+      <div class="cls-wrapper">      
+         <div style="margin-bottom: 20px;">
+            <div class="cls-text cls-header-top">CycleFlow</div>  
+            <div class="cls-text cls-header-bottom">Horizon<font color="lime"><b>Viewer</b></font></div> 
+         </div>          
+         <div class="cls-side-menu">   
+             <div class="file_upload">
+                <button type="button">Выбрать</button>
+                <div>Файл не выбран</div>
+                <input type="file">
+                <input type="file" id="files" >
+             </div> 
+             <div style="margin: 12px; color: white">      
+                 Web-приложение для просмотра горизонтов. 
+            </div>  
          </div>              
-         <div class="cls-content">
-            <canvas id="canvas" width="1024" height="768">
+         <div class="cls-content" >             
+            <canvas id="canvas" width="800px" height="500px">
                HTML5 not supported... in 2017... 
             </canvas>
+            <div class="cls-slider">
+                <div class="cls-notify" id="status-panel">Загрузка</div>
+                Параметр
+                <input type="range"  min="0" max="1000" class="cls-param-filter"/>
+            </div>
          </div>
       </div>
       <br/>
