@@ -17,16 +17,19 @@ define(
                 // Отпускание
                 docinst.onmouseup = this.onMouseUp.bind(this);
                 docinst.ontouchend = this.onMouseUp.bind(this);
-                // Нажатие
+                // Движение
                 docinst.onmousemove = this.onMouseMove.bind(this);
                 docinst.ontouchmove = this.onMouseMove.bind(this);
                 // Нажатие
                 canvas.onwheel = this.onWheel.bind(this);
             },
             onTouchStart: function (event) {
-                event.ClientX = event.touches[0].ClientX;
-                event.ClientY = event.touches[0].ClientY;
-                this.onMouseDown(event).bind(this);
+                var 
+                    touch = {};
+
+                touch.ClientX = event.touches[0].ClientX;
+                touch.ClientY = event.touches[0].ClientY;
+                //this.onMouseDown(event).bind(this);
                 alert('onTouchStart');
             },
 
