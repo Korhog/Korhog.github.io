@@ -19,7 +19,7 @@ class ConvertorDataToVertices:
         import re
 
         line_size = 0
-        sampler = 2
+        sampler = 10
 
         # заполняем сетку промежуточными данными
         for line in lines:
@@ -74,7 +74,7 @@ class ConvertorDataToVertices:
         x = vertices[0][0][0] + ( (vertices[len(vertices) - 1][len(vertices[len(vertices) - 1]) -1][0] - vertices[0][0][0]) / 2 )
         y = vertices[0][0][1] + ( (vertices[len(vertices) - 1][len(vertices[len(vertices) - 1]) -1][1] - vertices[0][0][1]) / 2 ) 
 
-        output = open(current_dir + 'output.mesh', 'w')
+        output = open(current_dir + 'output_mobile.mesh', 'w')
         # output.writeLine(str())
         output.write(str((x,y)) + '\n')
         for t in triangles:

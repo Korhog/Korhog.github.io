@@ -11,9 +11,16 @@ define(
             MouseY: null,
             isMouseDown: false,
             subcribe: function (docinst, canvas) {
+                // Нажатие
                 canvas.onmousedown = this.onMouseDown.bind(this);
+                canvas.ontouchstart = this.onMouseDown.bind(this);
+                // Отпускание
                 docinst.onmouseup = this.onMouseUp.bind(this);
+                docinst.ontouchend = this.onMouseUp.bind(this);
+                // Нажатие
                 docinst.onmousemove = this.onMouseMove.bind(this);
+                docinst.ontouchmove = this.onMouseMove.bind(this);
+                // Нажатие
                 canvas.onwheel = this.onWheel.bind(this);
             },
             onMouseDown: function (event) {
