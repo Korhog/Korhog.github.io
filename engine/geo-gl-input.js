@@ -13,7 +13,7 @@ define(
             subcribe: function (docinst, canvas) {
                 // Нажатие
                 canvas.onmousedown = this.onMouseDown.bind(this);
-                canvas.ontouchstart = this.onMouseDown.bind(this);
+                canvas.ontouchstart = this.onTouchStart.bind(this);
                 // Отпускание
                 docinst.onmouseup = this.onMouseUp.bind(this);
                 docinst.ontouchend = this.onMouseUp.bind(this);
@@ -23,6 +23,13 @@ define(
                 // Нажатие
                 canvas.onwheel = this.onWheel.bind(this);
             },
+            onTouchStart: function (event) {
+                event.ClientX = event.touches[0].ClientX;
+                event.ClientY = event.touches[0].ClientY;
+                this.onMouseDown(event).bind(this);
+                alert('onTouchStart');
+            },
+
             onMouseDown: function (event) {
                 this.MouseX = event.ClientX;
                 this.MouseY = event.ClientY;   
