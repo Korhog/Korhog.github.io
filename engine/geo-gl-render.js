@@ -4,6 +4,9 @@ define(
     function(camera) {
         console.log('render-initialized');
         return {
+            params: {
+                low_edge: 0.0
+            },
             camera: camera, // main scene camera. Камера не модуль. Ее надо создавать. 
             scene: null, // current scene 
             program: null,
@@ -92,7 +95,8 @@ define(
 
                     mWorldLocation = gl.getUniformLocation(program.prog, 'mWorld'),
                     mViewLocation = gl.getUniformLocation(program.prog, 'mView'),
-                    mProjLocation = gl.getUniformLocation(program.prog, 'mProj');                     
+                    mProjLocation = gl.getUniformLocation(program.prog, 'mProj');  
+                                       
 
                 mat4.identity(worldMatrix);
                 this.camera.view(viewMatrix);
@@ -107,7 +111,7 @@ define(
                 ); 
 
                 gl.uniformMatrix4fv(mWorldLocation, gl.FALSE, worldMatrix);                
-                gl.uniformMatrix4fv(mProjLocation, gl.FALSE, projMatrix);
+                gl.uniformMatrix4fv(mProjLocation, gl.FALSE, projMatrix);  
             },            
             draw: function() {
                 // Base frame render   
@@ -119,11 +123,13 @@ define(
                 var 
                     gl = this.gl,
                     viewMatrix = new Float32Array(16),
-                    mViewLocation = gl.getUniformLocation(this.program.prog, 'mView');
+                    mViewLocation = gl.getUniformLocation(this.program.prog, 'mView'),
+                    mMinEdge = gl.getUniformLocation(this.program.prog, 'low_egde');
 
                 this.camera.view(viewMatrix);
 
                 gl.uniformMatrix4fv(mViewLocation, gl.FALSE, viewMatrix);
+                gl.uniform1f(mMinEdge, this.params.low_edge);
                 gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
                 gl.drawArrays(gl.TRIANGLES, 0, this.mesh.size);      
             }                  

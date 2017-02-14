@@ -68,7 +68,7 @@ function polygon(x1, y1, x2, y2) {
         p = {},
         z = Math.cos(Math.PI * x1 * y1 * 40) / 20,
         r = Math.random(),
-        g = Math.random(),
+        g = Math.cos(Math.PI * x1 * y1 * 40),
         b = Math.random(),
         triangle = {};
     
