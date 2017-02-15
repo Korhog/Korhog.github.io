@@ -150,3 +150,35 @@ body {
     color: white;  
 }
 
+input[type=range] {
+    -webkit-appearance: none;
+    height:26px;
+}
+
+input[type=range]::-ms-browse {
+    -webkit-appearance: none;
+    height:26px;
+}
+
+input[type=range]::-ms-track {
+  height: 2px;
+  cursor: pointer;
+  background: #fffff6;
+}
+
+input[type=range]:focus::-ms-fill-lower {
+  background: #fffff6;
+}
+input[type=range]:focus::-ms-fill-upper {
+  background: #fffff6;
+}
+
+input[type="range"]::-ms-thumb {
+     -webkit-appearance: none;   
+    width: 22px;
+    height: 22px;
+    border-radius: 13px;
+    border: 2px solid white;
+    background: #2D2D2D;  
+    cursor: pointer;
+}
