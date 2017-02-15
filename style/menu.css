@@ -1,0 +1,49 @@
+li {
+    font-size: 12px;
+}
+
+li div.item {
+    padding: 4px;
+}
+
+li div label {
+    background: darkred;
+    margin: 0 2px;
+}
+
+li.item {
+    cursor: pointer;
+    margin-left: -20px;
+    color: #fff;
+    padding-left: 0px;
+    text-decoration: none;
+    display: block;
+    border-radius: 3px;
+}
+
+li.item:hover {
+      background:brown;  
+}
+
+li.item.sub {
+    background: transparent;    
+}
+
+li div.item.sub.label{
+    border-radius: 3px;  
+}
+
+li div.item.sub.label:hover{
+    background:brown;  
+}
+
+li.item.selected {
+    background:lime;
+    color: black;    
+}
+
+li.item.selected:hover {
+    background:brown;
+}
+
+

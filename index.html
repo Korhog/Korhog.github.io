@@ -2,32 +2,58 @@
 <html>
    <head>
       <title> HorizonViewer </title>
-      <link rel="stylesheet" href="./style/main.css" type="text/css">      
+      <link rel="stylesheet" href="./style/main.css" type="text/css">    
+      <link rel="stylesheet" href="./style/menu.css" type="text/css">  
+      <link rel="stylesheet" href="./style/topmenu.css" type="text/css">      
       <script type="text/javascript" src="./engine/gl-matrix.js"></script>
       <script type="text/javascript" src="./engine/gl-objects.js"></script>
       <script type="text/javascript" id="inputFile" src="./convertor/output.js" ></script>
       <script data-main="app" src="./client/require.js"></script>     
    </head>
    <!--body onload="initEngine();"-->
-   <body>    
+   <body> 
+      
+    <header class="menu" style="height: 60px; width: 1014px; margin: 0 auto;">
+        <div style="width: 1014px;">
+            <div class="menu button">RockEval</div>
+            <div class="menu button active">HorizonViewer</div>
+            <div class="menu button">LogInterpreter</div>
+            <div class="menu button">GeoEconomics</div>
+        </div>
+    </header>         
       <div class="cls-wrapper">      
-         <div style="margin-bottom: 20px;">
-            <div class="cls-text cls-header-top">CycleFlow</div>  
-            <div class="cls-text cls-header-bottom">Horizon<font color="lime"><b>Viewer</b></font></div> 
-         </div>          
          <div class="cls-side-menu">   
-             <div class="file_upload">
+             <div class="file_upload" style="display: none">
                 <button type="button">Выбрать</button>
                 <div>Файл не выбран</div>
-                <input type="file">
                 <input type="file" id="files" >
              </div> 
-             <div style="margin: 12px; color: white">      
-                 Web-приложение для просмотра горизонтов. 
-            </div>  
+             <div style="margin: 12px; color: white">    
+                <ol style="margin-left: -20px;">
+                    <li class="item sub">
+                        <div>
+                            <div class="item sub label">Горизонты</div> 
+                            <ol>
+                                <li class="item"><div class="item">Epsilon</div></li>                                
+                                <li class="item sub">
+                                    <div>
+                                        <div class="item sub label">Muurteree</div>                                        
+                                        <ol>
+                                            <li class="item"><div class="item">moomba-01</div></li>
+                                            <li class="item selected"><div  class="item">moomba-02</div></li>
+                                            <li class="item"><div class="item">moomba-03</div></li>
+                                        </ol>
+                                    </div>
+                                </li>
+                                <li class="item"><div class="item">Patchawarra</div></li>
+                            </ol>
+                        </div>
+                    </li>
+                </ol>         
+             </div>  
          </div>              
          <div class="cls-content" >             
-            <canvas id="canvas" width="800px" height="500px">
+            <canvas id="canvas" width="800px" height="600px" style="margin: 4px;">
                HTML5 not supported... in 2017... 
             </canvas>
             <div class="cls-slider">
@@ -37,6 +63,7 @@
             </div>
          </div>
       </div>
+      <div class="menu" style="height: 20px; width: 1014px; margin: 0 auto; margin-top: 1px;"/>
       <br/>
    </body>
 </html>

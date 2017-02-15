@@ -1,0 +1,38 @@
+.menu {
+    background: #6b6d72; /* Old browsers */
+    background: -moz-linear-gradient(top, #6b6d72 0%, #2c353a 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, #6b6d72 0%,#2c353a 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, #6b6d72 0%,#2c353a 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#6b6d72', endColorstr='#2c353a',GradientType=0 ); /* IE6-9 */
+}
+
+div.menu.button {
+    height: 40px;
+    float: left;
+    text-align: center;
+    padding: 10px;
+    color:white;
+    font-size: 12px;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px black; /* Параметры тени */
+    border-right: 1px solid #2c353a;
+}
+
+div.menu.button:hover {
+/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#7b7d83+0,3f4c53+100 */
+    background: #7b7d83; /* Old browsers */
+    background: -moz-linear-gradient(top, #7b7d83 0%, #3f4c53 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, #7b7d83 0%,#3f4c53 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, #7b7d83 0%,#3f4c53 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7b7d83', endColorstr='#3f4c53',GradientType=0 ); /* IE6-9 */
+}
+
+div.menu.button.active {
+/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#7b7d83+0,3f4c53+100 */
+   /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#8fc400+0,5a8e00+100 */
+    background: #8fc400; /* Old browsers */
+    background: -moz-linear-gradient(top, #8fc400 0%, #5a8e00 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, #8fc400 0%,#5a8e00 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, #8fc400 0%,#5a8e00 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#8fc400', endColorstr='#5a8e00',GradientType=0 ); /* IE6-9 */ 
+}
