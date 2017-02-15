@@ -6,11 +6,7 @@ class ConvertorDataToVertices:
         return (0, 0, 0)
 
     @staticmethod
-    def convert_hor(file):  
-        current_dir = os.path.dirname(__file__) + '\\'    
-        data = open(current_dir + 'data.hor')
-
-        lines = data.readlines()
+    def compute_triangles(lines):
         vertice_last = None
 
         vertices = [] # сюда перегоним вершины
@@ -19,7 +15,7 @@ class ConvertorDataToVertices:
         import re
 
         line_size = 0
-        sampler = 1
+        sampler = 5
 
         # заполняем сетку промежуточными данными
         for line in lines:
@@ -27,7 +23,7 @@ class ConvertorDataToVertices:
             if len(pack) < 4:
                 continue
 
-            scale = 2
+            scale = 1
             vertice = (
                 float(float('%.2f' % round(float(pack[0]) * scale, 2))) - 419000 - 10000, 
                 float(float('%.2f' % round(float(pack[1]) * scale, 2))) - 6896151,
@@ -74,7 +70,19 @@ class ConvertorDataToVertices:
         x = vertices[0][0][0] + ( (vertices[len(vertices) - 1][len(vertices[len(vertices) - 1]) -1][0] - vertices[0][0][0]) / 2 )
         y = vertices[0][0][1] + ( (vertices[len(vertices) - 1][len(vertices[len(vertices) - 1]) -1][1] - vertices[0][0][1]) / 2 ) 
 
-        output = open(current_dir + 'output_max.mesh', 'w')
+        return triangles, x, y       
+
+
+    @staticmethod
+    def convert_hor(file):  
+        current_dir = os.path.dirname(__file__) + '\\'    
+        data = open(current_dir + 'data.hor')
+
+        lines = data.readlines()
+        
+        triangles, x, y = ConvertorDataToVertices.compute_triangles(lines)
+
+        output = open(current_dir + 'output.mesh', 'w')
         # output.writeLine(str())
         output.write(str((x,y)) + '\n')
         for t in triangles:
@@ -84,6 +92,28 @@ class ConvertorDataToVertices:
         print(len(triangles))
         print('finish')
 
+    @staticmethod
+    def convert_hor_to_js(file):  
+        current_dir = os.path.dirname(__file__) + '\\'    
+        data = open(current_dir + 'data.hor')
+
+        lines = data.readlines()
+        
+        triangles, x, y = ConvertorDataToVertices.compute_triangles(lines)
+
+        output = open(current_dir + 'output.js', 'w')   
+        
+        output.write("var geometry = [\n"); 
+        output.write("'" + str((x,y)) + "',\n"); 
+
+        for t in triangles:
+            output.write("'" + str(t) + "',\n")        
+
+        output.write("].join('\\n')"); 
+
+        output.close()
+        print('finish')                
+
 print(__file__)
 
-ConvertorDataToVertices.convert_hor('data')
+ConvertorDataToVertices.convert_hor_to_js('data')

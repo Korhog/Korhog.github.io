@@ -56,6 +56,17 @@ var initialize = function () {
     
     app.engine.initialize(document, canvas);
 
+    var 
+        event = {            
+            target: {
+                result: geometry
+            }
+        };
+
+    app.engine.render.mesh = loadMeshFromFile(event);
+    app.engine.render.setupDemoRender();
+    document.getElementById("status-panel").style.visibility = "collapse";
+    console.log('loading end'); 
     // Run render loop
     var 
         loop = function () {
