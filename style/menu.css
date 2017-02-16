@@ -7,7 +7,7 @@ li div.item {
 }
 
 li div label {
-    background: darkred;
+    background: #2A2D2E;
     margin: 0 2px;
 }
 
@@ -22,7 +22,7 @@ li.item {
 }
 
 li.item:hover {
-      background:brown;  
+      background:#2A2D2E;  
 }
 
 li.item.sub {
@@ -34,16 +34,10 @@ li div.item.sub.label{
 }
 
 li div.item.sub.label:hover{
-    background:brown;  
+    background:#2A2D2E;  
 }
 
 li.item.selected {
-    background:lime;
-    color: black;    
+    background:#094771;
+    color: #fff;  
 }
-
-li.item.selected:hover {
-    background:brown;
-}
-
-
