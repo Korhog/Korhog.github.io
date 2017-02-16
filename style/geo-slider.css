@@ -1,0 +1,70 @@
+.cls-slider {
+    background: #2D2D2D;  
+    width: 290px;     
+    position: relative;
+    margin: 0 auto;
+    margin-top: -60px;
+    border: 1px solid #4D4D6D; 
+    text-align: center;  
+    color: white;    
+    font-size: 11px;
+}
+
+.cls-param-filter {
+    padding: 0 8px;    
+    width: 260px;
+}
+
+.cls-notify {
+    padding: 4px;
+    background: maroon;
+    border: 1px solid #4D4D6D; 
+    margin-top: -20px;
+    margin-left: -1px;
+    margin-right: -1px;   
+}
+
+.cls-text {
+    color: lightsteelblue;
+    font-family: -apple-system,BlinkMacSystemFont,Roboto,Open Sans,Helvetica Neue,sans-serif;
+    font-size: 12px;  
+    margin: 0 4px;  
+}
+
+.cls-text.cls-header-bottom {
+    font-size: 24px;  
+    color: white;  
+}
+
+input[type=range] {
+    -webkit-appearance: none;
+    height:26px;
+}
+
+input[type=range]::-ms-browse {
+    -webkit-appearance: none;
+    height:26px;
+}
+
+input[type=range]::-ms-track {
+  height: 2px;
+  cursor: pointer;
+  background: #fffff6;
+}
+
+input[type=range]:focus::-ms-fill-lower {
+  background: #fffff6;
+}
+input[type=range]:focus::-ms-fill-upper {
+  background: #fffff6;
+}
+
+input[type="range"]::-ms-thumb {
+     -webkit-appearance: none;   
+    width: 22px;
+    height: 22px;
+    border-radius: 13px;
+    border: 2px solid white;
+    background: #2D2D2D;  
+    cursor: pointer;
+}

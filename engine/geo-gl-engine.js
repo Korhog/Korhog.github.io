@@ -1,12 +1,22 @@
 define (
     'geo-gl-engine',
     ['geo-gl-render', 'geo-gl-input', 'geo-gl-shader', 'geo-gl-shaders'], 
-    function(render, input, shader) {  
+    function(render, input, shader) {         
         return {
+            resizeCanvas: function() {   
+                var 
+                    canvas = this.canvas;
+                canvas.width = canvas.clientWidth;   
+                canvas.height = canvas.clientHeight;  
+            },             
             render: render,
             inputController: input,
             shaderFactory: shader,
+
             initialize: function(docinst, canvas) {
+                this.canvas = canvas;
+                this.resizeCanvas();
+                alert(canvas.clientWidth);
                 // Инициализируемся
                 render.setParent(this);
                 shader.setParent(this);

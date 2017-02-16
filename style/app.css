@@ -1,0 +1,57 @@
+body {
+    background: #1D1D1D;
+    font-family: -apple-system,BlinkMacSystemFont,Roboto,Open Sans,Helvetica Neue,sans-serif
+}
+
+.main-frame {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: dimgrey;    
+}
+
+.central-frame {
+    position: fixed;
+    top: 70px;
+    left: 0;
+    bottom: 15px;
+    width: 100%;
+    background: black;       
+}
+
+.footer-frame {
+    position: fixed;
+    height: 15px;
+    bottom: 0px;
+    width: 100%;
+    background: darkred;    
+}
+
+.header-frame {
+    position: fixed;
+    height: 70px;
+    top: 0px;
+    width: 100%;
+    background: cadetblue;   
+    box-shadow: 0px 0px 8px black; 
+}
+
+.side-menu {
+    position: fixed;
+    top: 70px;
+    bottom: 15px;
+    left: 0px;
+    width: 250px;
+    background:#252526;    
+}
+
+.workplace {
+    position: fixed;
+    top: 70px;
+    bottom: 15px;
+    left: 250px;
+    right: 0px;
+    background: darkseagreen;    
+}
