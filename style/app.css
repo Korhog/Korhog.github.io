@@ -26,7 +26,7 @@ body {
     height: 15px;
     bottom: 0px;
     width: 100%;
-    background: darkred;    
+    background: #007ACC;    
 }
 
 .header-frame {
@@ -34,7 +34,6 @@ body {
     height: 70px;
     top: 0px;
     width: 100%;
-    background: cadetblue;   
     box-shadow: 0px 0px 8px black; 
 }
 

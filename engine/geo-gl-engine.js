@@ -7,7 +7,9 @@ define (
                 var 
                     canvas = this.canvas;
                 canvas.width = canvas.clientWidth;   
-                canvas.height = canvas.clientHeight;  
+                canvas.height = canvas.clientHeight; 
+
+                this.render.updateProjection(); 
             },             
             render: render,
             inputController: input,
@@ -16,7 +18,6 @@ define (
             initialize: function(docinst, canvas) {
                 this.canvas = canvas;
                 this.resizeCanvas();
-                alert(canvas.clientWidth);
                 // Инициализируемся
                 render.setParent(this);
                 shader.setParent(this);

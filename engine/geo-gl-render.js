@@ -4,6 +4,31 @@ define(
     function(camera) {
         console.log('render-initialized');
         return {
+            canvas: null,
+            updateProjection: function() {
+                // Обновляем матрицу mView
+                if(!(this.canvas && this.parent)) {
+                    return;
+                }
+
+                var 
+                    gl = this.gl,
+                    program = this.program,
+                    canvas = this.canvas,
+                    projMatrix = new Float32Array(16),
+                    mProjLocation = gl.getUniformLocation(program.prog, 'mProj');
+
+                                // Матрицу песпекивы перенести в камеру.
+                mat4.perspective(
+                    projMatrix,
+                    glMatrix.toRadian(45),
+                    canvas.width / canvas.height,
+                    0.1,
+                    1000.0
+                );   
+
+                gl.uniformMatrix4fv(mProjLocation, gl.FALSE, projMatrix); 
+            },
             params: {
                 low_edge: 0.0
             },
@@ -19,6 +44,7 @@ define(
             },         
             initialize: function(canvas) {
                 // Render initialization
+                this.canvas = canvas;
                 var 
                     glctx = canvas.getContext("webgl"),
                     fatta = function (vertexShader, pixelShader) {
@@ -91,27 +117,18 @@ define(
                 var 
                     worldMatrix = new Float32Array(16),
                     viewMatrix = new Float32Array(16),
-                    projMatrix = new Float32Array(16),
-
                     mWorldLocation = gl.getUniformLocation(program.prog, 'mWorld'),
                     mViewLocation = gl.getUniformLocation(program.prog, 'mView'),
                     mProjLocation = gl.getUniformLocation(program.prog, 'mProj');  
                                        
 
                 mat4.identity(worldMatrix);
+                this.updateProjection();
                 this.camera.view(viewMatrix);
 
-                // Матрицу песпекивы перенести в камеру.
-                mat4.perspective(
-                    projMatrix,
-                    glMatrix.toRadian(45),
-                    1024 / 768,
-                    0.1,
-                    1000.0
-                ); 
 
                 gl.uniformMatrix4fv(mWorldLocation, gl.FALSE, worldMatrix);                
-                gl.uniformMatrix4fv(mProjLocation, gl.FALSE, projMatrix);  
+               
             },            
             draw: function() {
                 // Base frame render   

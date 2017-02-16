@@ -17,9 +17,14 @@ require(['jquery', 'geo-gl-engine', 'geo-gl-loader'], function($, engine) {
 
 var initialize = function () {
     var 
-        canvas = document.getElementById("canvas");           
-    
+        workplace = document.getElementById("workplace"),
+        canvas = document.getElementById("canvas");
+
     app.engine.initialize(document, canvas);   
+
+    document.getElementsByTagName("BODY")[0].onresize = function() {
+        app.engine.resizeCanvas();
+    };   
 
     var 
         event = {            
