@@ -56,10 +56,10 @@ define(
                 if (event.touches.length === 2) {
                     // 2 касания режим масштабирования.
                     alert(
-                        '2 касания',
-                         event.touches[0].clientX,
-                         event.touches[0].clientY,
-                         event.touches[1].clientX,
+                        '2 касания ' +
+                         event.touches[0].clientX + ' ' +
+                         event.touches[0].clientY + ' ' +
+                         event.touches[1].clientX + ' ' +
                          event.touches[1].clientY
                     );
                     /*
