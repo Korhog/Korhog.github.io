@@ -9,9 +9,12 @@ define(
             },       
             params: {
                 alt: false,
-                ctrl: false,
-                startVector: null,
-                scaleMode: false
+                ctrl: false, 
+                scaleMode: false,
+                scale: {
+                    baseScale: 0,
+                    baseVectorSize: 0
+                }
             },  
             MouseX: null,
             MouseY: null,
@@ -52,7 +55,20 @@ define(
 
                 if (event.touches.length === 2) {
                     // 2 касания режим масштабирования.
-                    this.params.scaleMode = false;
+                    var 
+                        p1 = vec2.fromValues(
+                            event.touches[0].clientX,
+                            event.touches[0].clientY
+                        ),
+                        p2 = vec2.fromValues(
+                            event.touches[1].clientX,
+                            event.touches[1].clientY
+                        ); 
+                    
+                    this.params.scaleMode = true;
+                    this.params.scale.baseVectorSize = vec2.dist(p1, p2);
+                    this.params.scale.baseScale = this.parent.render.camera.distance;
+                    
                     alert('2 касания');
                 }
                 //alert('onTouchStart');
