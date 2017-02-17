@@ -95,13 +95,13 @@ define(
 
             onTouchMove: function (event) {
                 if (!this.parent || !this.isMouseDown) {
-                    return;
+                    return true;
                 }   
 
                 var 
                     camera = this.parent.render.camera;              
 
-                if (this.params.scaleMode) {
+                if (this.params.scaleMode || event.touches.length === 2) {
                     var                         
                         p1 = vec2.fromValues(
                             event.touches[0].clientX,
@@ -118,8 +118,6 @@ define(
                             k = (this.params.scale.baseVectorSize / newDist);
                         camera.distance = this.params.scale.baseScale * k;
                     }
-
-                    return false;
                 } else {
                     var 
                         newX = event.touches[0].clientX,
