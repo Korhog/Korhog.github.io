@@ -114,23 +114,16 @@ define(
                         newDist = vec2.dist(p1, p2);
 
                     if (newDist !== 0) {
-                        var k = this.params.baseVectorSize / newDist;
-                        s = 'cd ' + camera.distance + '\n bs' + this.params.scale.baseScale+ '\n k' + (this.params.scale.baseVectorSize / newDist);
-                        alert (s);
-                        //camera.distance = this.params.baseScale * (this.params.baseVectorSize / newDist);
+                        var 
+                            k = (this.params.scale.baseVectorSize / newDist);
+                        camera.distance = this.params.scale.baseScale * k;
                     }
 
                     return false;
                 } else {
-                    event.clientX = event.touches[0].clientX;
-                    event.clientY = event.touches[0].clientY;
-
-                    if (!this.parent || !this.isMouseDown) {
-                        return;
-                    }
                     var 
-                        newX = event.clientX,
-                        newY = event.clientY;                    
+                        newX = event.touches[0].clientX,
+                        newY = event.touches[0].clientY;                    
 
                     camera.yaw += (this.MouseX ? this.MouseX - newX : 0) / 10;
                     camera.pitch += (this.MouseY ? this.MouseY - newY : 0) / 10;
