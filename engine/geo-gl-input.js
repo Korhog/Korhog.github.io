@@ -102,22 +102,35 @@ define(
                     return;
                 }                 
 
-                event.clientX = event.touches[0].clientX;
-                event.clientY = event.touches[0].clientY;
+                if (this.params.scaleMode) {
+                    var 
+                        p1 = vec2.fromValues(
+                            event.touches[0].clientX,
+                            event.touches[0].clientY
+                        ),
+                        p2 = vec2.fromValues(
+                            event.touches[1].clientX,
+                            event.touches[1].clientY
+                        );                     
+                    return false;
+                } else {
+                    event.clientX = event.touches[0].clientX;
+                    event.clientY = event.touches[0].clientY;
 
-                if (!this.parent || !this.isMouseDown) {
-                    return;
+                    if (!this.parent || !this.isMouseDown) {
+                        return;
+                    }
+                    var 
+                        camera = this.parent.render.camera,
+                        newX = event.clientX,
+                        newY = event.clientY;                    
+
+                    camera.yaw += (this.MouseX ? this.MouseX - newX : 0) / 10;
+                    camera.pitch += (this.MouseY ? this.MouseY - newY : 0) / 10;
+
+                    this.MouseX = newX;
+                    this.MouseY = newY;
                 }
-                var 
-                    camera = this.parent.render.camera,
-                    newX = event.clientX,
-                    newY = event.clientY;                    
-
-                camera.yaw += (this.MouseX ? this.MouseX - newX : 0) / 10;
-                camera.pitch += (this.MouseY ? this.MouseY - newY : 0) / 10;
-
-                this.MouseX = newX;
-                this.MouseY = newY;
 
                 return false;
             },
