@@ -1,7 +1,6 @@
 define(
-   'geo-gl-struct', 
-   [],
-   function() {
+   'geo-gl-struct', [],
+   function () {
 
    }
 );

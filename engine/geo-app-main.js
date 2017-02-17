@@ -1,6 +1,4 @@
 define(
-    'geo-app-main',     
-    [],
-    function() {
-    }
+   'geo-app-main', [],
+   function () {}
 );

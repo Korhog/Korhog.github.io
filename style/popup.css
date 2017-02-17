@@ -1,0 +1,31 @@
+div .color-scheme {
+/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#4032ff+0,00ffff+25,00ff00+50,ffff00+75,ff0000+100 */
+    background: #4032ff; /* Old browsers */
+    background: -moz-linear-gradient(left, #4032ff 0%, #00ffff 25%, #00ff00 50%, #ffff00 75%, #ff0000 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(left, #4032ff 0%,#00ffff 25%,#00ff00 50%,#ffff00 75%,#ff0000 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to right, #4032ff 0%,#00ffff 25%,#00ff00 50%,#ffff00 75%,#ff0000 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4032ff', endColorstr='#ff0000',GradientType=1 ); /* IE6-9 */
+}
+
+div .color-scheme {
+    width: 250px;
+    height: 15px;  
+
+    margin: 0 auto;   
+    border: 1px solid white;    
+}
+
+div .color-label {    
+    margin: 0 auto;
+    text-align:center;
+}
+
+div .color-label span {    
+    float: left;
+    font-size: 12px;
+    font-weight: bold;
+    color: white;
+    text-align:center;
+    padding: 2px;
+
+}
