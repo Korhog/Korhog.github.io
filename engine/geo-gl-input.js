@@ -47,8 +47,8 @@ define(
                         ctrlKey: false
                     };               
 
-                this.MouseX = event.clientX;
-                this.MouseY = event.clientY;                   
+                this.MouseX = touch.clientX;
+                this.MouseY = touch.clientY;                   
                 this.isMouseDown = true;
                 this.params.alt = false;
                 this.params.ctrl = false;
@@ -64,15 +64,13 @@ define(
                             event.touches[1].clientX,
                             event.touches[1].clientY
                         ); 
-                    alert('до сюда дошли');   
+                                                           
 
-                    /*
-                    
-                    this.params.scaleMode = true;
                     this.params.scale.baseVectorSize = vec2.dist(p1, p2);
-                    this.params.scale.baseScale = this.parent.render.camera.distance;
-                    */
-                    
+                    this.params.scale.baseScale = this.parent.render.camera.distance;    
+                    this.params.scaleMode = true;
+                    alert('до сюда дошли');  
+                    return;  
                 }
                 //alert('onTouchStart');
             },
