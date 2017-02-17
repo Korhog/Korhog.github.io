@@ -31,7 +31,7 @@ define(
                 canvas.ontouchstart = this.onTouchStart.bind(this);
                 // Отпускание
                 docinst.onmouseup = this.onMouseUp.bind(this);
-                docinst.ontouchend = this.onMouseUp.bind(this);
+                docinst.ontouchend = this.onTouchEnd.bind(this);
                 // Движение
                 docinst.onmousemove = this.onMouseMove.bind(this);
                 docinst.ontouchmove = this.onTouchMove.bind(this);
@@ -39,6 +39,8 @@ define(
                 canvas.onwheel = this.onWheel.bind(this);
             },
             onTouchStart: function (event) {
+                document.body.style.overflow = "hidden";
+
                 var 
                     touch = {
                         clientX: event.touches[0].clientX,
@@ -54,7 +56,9 @@ define(
                 this.params.ctrl = false;
 
                 if (event.touches.length === 2) {
-                    // 2 касания режим масштабирования.   
+                    // 2 касания режим масштабирования.  
+                    
+
                     var 
                         p1 = vec2.fromValues(
                             event.touches[0].clientX,
@@ -74,7 +78,10 @@ define(
             },
 
             onTouchEnd: function (event) {
+                document.body.style.overflow = "auto";
 
+                this.isMouseDown = false;
+                this.params.scaleMode = false;
             },            
 
             onMouseDown: function (event) {
