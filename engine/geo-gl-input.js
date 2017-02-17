@@ -114,7 +114,10 @@ define(
                         newDist = vec2.dist(p1, p2);
 
                     if (newDist !== 0) {
-                        camera.distance = this.params.baseScale * (this.params.baseVectorSize / newDist);
+                        var k = this.params.baseVectorSize / newDist;
+                        s = 'cd ' + camera.distance + '\n bs' + this.params.baseScale+ '\n k' + (this.params.baseVectorSize / newDist);
+                        alert (s);
+                        //camera.distance = this.params.baseScale * (this.params.baseVectorSize / newDist);
                     }
 
                     return false;
