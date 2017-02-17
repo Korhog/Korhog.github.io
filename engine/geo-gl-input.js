@@ -55,6 +55,8 @@ define(
 
                 if (event.touches.length === 2) {
                     // 2 касания режим масштабирования.
+                    alert('2 касания');
+                    /*
                     var 
                         p1 = vec2.fromValues(
                             event.touches[0].clientX,
@@ -68,8 +70,8 @@ define(
                     this.params.scaleMode = true;
                     this.params.scale.baseVectorSize = vec2.dist(p1, p2);
                     this.params.scale.baseScale = this.parent.render.camera.distance;
+                    */
                     
-                    alert('2 касания');
                 }
                 //alert('onTouchStart');
             },
