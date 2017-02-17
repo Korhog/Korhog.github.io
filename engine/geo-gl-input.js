@@ -3,14 +3,16 @@ define(
     [], 
     function() {
         return {
-            parent: null, // engine
+            parent: null, // engine            
             setParent: function(obj) {
                 this.parent = obj;
             },       
             params: {
                 alt: false,
                 ctrl: false,
-            },   
+                startVector: null,
+                scaleMode: false
+            },  
             MouseX: null,
             MouseY: null,
             isMouseDown: false,
@@ -47,21 +49,32 @@ define(
                 this.isMouseDown = true;
                 this.params.alt = false;
                 this.params.ctrl = false;
+
+                if (event.touches.length === 2) {
+                    // 2 касания режим масштабирования.
+                    this.params.scaleMode = false;
+                    alert('2 касания');
+                }
                 //alert('onTouchStart');
             },
+
+            onTouchEnd: function (event) {
+
+            },            
 
             onMouseDown: function (event) {
                 this.MouseX = event.clientX;
                 this.MouseY = event.clientY;   
 
                 this.params.alt = event.altKey;
-                this.params.ctrl = event.ctrlKey;
+                this.params.ctrl = event.ctrlKey;               
 
                 this.isMouseDown = true;
             },
 
             onMouseUp: function (event) {
                 this.isMouseDown = false;
+                this.params.scaleMode = false;
             },
 
 
