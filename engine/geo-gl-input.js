@@ -69,8 +69,6 @@ define(
                     this.params.scale.baseVectorSize = vec2.dist(p1, p2);
                     this.params.scale.baseScale = this.parent.render.camera.distance;    
                     this.params.scaleMode = true;
-                    alert('до сюда дошли');  
-                    return;  
                 }
                 //alert('onTouchStart');
             },
@@ -98,10 +96,13 @@ define(
             onTouchMove: function (event) {
                 if (!this.parent || !this.isMouseDown) {
                     return;
-                }                 
+                }   
+
+                var 
+                    camera = this.parent.render.camera;              
 
                 if (this.params.scaleMode) {
-                    var 
+                    var                         
                         p1 = vec2.fromValues(
                             event.touches[0].clientX,
                             event.touches[0].clientY
@@ -109,7 +110,13 @@ define(
                         p2 = vec2.fromValues(
                             event.touches[1].clientX,
                             event.touches[1].clientY
-                        );                     
+                        ),
+                        newDist = vec2.dist(p1, p2);
+
+                    if (newDist !== 0) {
+                        camera.distance = this.params.baseScale * (this.params.baseVectorSize / newDist);
+                    }
+
                     return false;
                 } else {
                     event.clientX = event.touches[0].clientX;
@@ -119,7 +126,6 @@ define(
                         return;
                     }
                     var 
-                        camera = this.parent.render.camera,
                         newX = event.clientX,
                         newY = event.clientY;                    
 
