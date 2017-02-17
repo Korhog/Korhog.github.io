@@ -115,7 +115,7 @@ define(
 
                     if (newDist !== 0) {
                         var k = this.params.baseVectorSize / newDist;
-                        s = 'cd ' + camera.distance + '\n bs' + this.params.baseScale+ '\n k' + (this.params.baseVectorSize / newDist);
+                        s = 'cd ' + camera.distance + '\n bs' + this.params.scale.baseScale+ '\n k' + (this.params.scale.baseVectorSize / newDist);
                         alert (s);
                         //camera.distance = this.params.baseScale * (this.params.baseVectorSize / newDist);
                     }
