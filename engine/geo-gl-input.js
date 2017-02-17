@@ -54,14 +54,7 @@ define(
                 this.params.ctrl = false;
 
                 if (event.touches.length === 2) {
-                    // 2 касания режим масштабирования.
-                    alert(
-                         event.touches[0].clientX + ' : ' +
-                         event.touches[0].clientY + ' : ' +
-                         event.touches[1].clientX + ' : ' +
-                         event.touches[1].clientY
-                    );
-                    /*
+                    // 2 касания режим масштабирования.   
                     var 
                         p1 = vec2.fromValues(
                             event.touches[0].clientX,
@@ -71,6 +64,9 @@ define(
                             event.touches[1].clientX,
                             event.touches[1].clientY
                         ); 
+                    alert('до сюда дошли');   
+
+                    /*
                     
                     this.params.scaleMode = true;
                     this.params.scale.baseVectorSize = vec2.dist(p1, p2);
