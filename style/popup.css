@@ -17,6 +17,10 @@ div .color-scheme {
 
 div .color-label {    
     margin: 0 auto;
+    width: 350px;
+    height: 20px;  
+    margin-top: 20px;
+    position: relative;
     text-align:center;
 }
 

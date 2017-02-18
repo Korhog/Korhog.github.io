@@ -26,7 +26,8 @@ body {
     height: 15px;
     bottom: 0px;
     width: 100%;
-    background: #007ACC;    
+    background: #007ACC;  
+    visibility: hidden;  
 }
 
 .header-frame {
@@ -40,7 +41,7 @@ body {
 .side-menu {
     position: fixed;
     top: 70px;
-    bottom: 15px;
+    bottom: 0px;
     left: 0px;
     width: 250px;
     background:#252526;    
@@ -49,8 +50,8 @@ body {
 .workplace {
     position: fixed;
     top: 70px;
-    bottom: 15px;
+    bottom: 0px;
     left: 250px;
     right: 0px;
-    background: darkseagreen;    
+    background: #1D1D1D;    
 }
