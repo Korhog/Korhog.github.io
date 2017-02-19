@@ -28,8 +28,27 @@ define(
 
             gl.uniformMatrix4fv(mProjLocation, gl.FALSE, projMatrix);
          },
+         setScale: function (scale) {
+            // Обновляем матрицу mView
+            if (!(this.canvas && this.parent)) {
+               return;
+            }
+
+            var
+               gl = this.gl,
+               program = this.program,
+               worldMatrix = new Float32Array(16),
+               mWorldLocation = gl.getUniformLocation(program.prog, 'mWorld');
+
+            this.params.scale = scale;
+
+            mat4.identity(worldMatrix);
+            mat4.scale(worldMatrix, worldMatrix, [1, this.params.scale, 1]);
+            gl.uniformMatrix4fv(mWorldLocation, gl.FALSE, worldMatrix);
+         },
          params: {
-            low_edge: 0.0
+            low_edge: 0.0,
+            scale: 1.0
          },
          camera: camera, // main scene camera. Камера не модуль. Ее надо создавать.
          scene: null, // current scene
@@ -124,7 +143,6 @@ define(
             mat4.identity(worldMatrix);
             this.updateProjection();
             this.camera.view(viewMatrix);
-
 
             gl.uniformMatrix4fv(mWorldLocation, gl.FALSE, worldMatrix);
 

@@ -13,7 +13,11 @@ define(
             scale: {
                baseScale: 0,
                baseVectorSize: 0
-            }
+            },
+            meshScale: {
+               baseScale: 1.0
+            },
+            orientationVertical: false 
          },
          MouseX: null,
          MouseY: null,
@@ -56,8 +60,6 @@ define(
 
             if (event.touches.length === 2) {
                // 2 касания режим масштабирования.
-
-
                var
                   p1 = vec2.fromValues(
                      event.touches[0].clientX,
@@ -68,12 +70,15 @@ define(
                      event.touches[1].clientY
                   );
 
+               this.params.meshScale.baseScale = this.parent.render.params.scale;
+               this.params.orientationVertical = Math.abs(p1[0] - p2[0]) < Math.abs(p1[1] - p2[1]);
 
                this.params.scale.baseVectorSize = vec2.dist(p1, p2);
                this.params.scale.baseScale = this.parent.render.camera.distance;
                this.params.scaleMode = true;
             }
             //alert('onTouchStart');
+            return false;
          },
 
          onTouchEnd: function (event) {
@@ -105,6 +110,7 @@ define(
             }
 
             var
+               render = this.parent.render,
                camera = this.parent.render.camera;
 
             if (this.params.scaleMode || event.touches.length === 2) {
@@ -120,9 +126,16 @@ define(
                   newDist = vec2.dist(p1, p2);
 
                if (newDist !== 0) {
-                  var
-                     k = (this.params.scale.baseVectorSize / newDist);
-                  camera.distance = this.params.scale.baseScale * k;
+                  if (this.params.orientationVertical) {
+                     var 
+                        k = (newDist / this.params.scale.baseVectorSize);
+                     render.setScale(this.params.meshScale.baseScale * k);
+                  } else {
+                     var
+                        k = (this.params.scale.baseVectorSize / newDist);
+                     camera.distance = this.params.scale.baseScale * k;
+                  }
+
                }
             } else {
                var
@@ -175,9 +188,16 @@ define(
                return;
             }
             var
+               render = this.parent.render,
                camera = this.parent.render.camera;
-
-            camera.distance += event.deltaY / 1000;
+            
+            if (event.altKey) {
+               var 
+                  scale = render.params.scale + event.deltaY / 1000
+               render.setScale(scale);
+            } else {
+               camera.distance += event.deltaY / 1000;
+            }
          },
          onLowEdgeChange: function (event) {
             if (!this.parent) {
